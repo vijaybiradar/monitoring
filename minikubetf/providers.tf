@@ -2,11 +2,15 @@ terraform {
   required_providers {
     kubernetes = {
       source = "hashicorp/kubernetes"
-      version = "2.23.0"
+      version = "2.26.0"
     }
     minikube = {
       source = "scott-the-programmer/minikube"
-      version = "0.3.5"
+      version = "0.3.10"
+    }
+    helm = {
+      source = "hashicorp/helm"
+      version = "2.12.1"
     }
   }
 }
@@ -20,4 +24,13 @@ provider "kubernetes" {
   client_certificate     = minikube_cluster.docker.client_certificate
   client_key             = minikube_cluster.docker.client_key
   cluster_ca_certificate = minikube_cluster.docker.cluster_ca_certificate
+}
+
+provider "helm" {
+  kubernetes {
+    host = minikube_cluster.docker.host
+    client_certificate     = minikube_cluster.docker.client_certificate
+    client_key             = minikube_cluster.docker.client_key
+    cluster_ca_certificate = minikube_cluster.docker.cluster_ca_certificate
+  }
 }
